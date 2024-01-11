@@ -139,9 +139,13 @@ class Activations:
     def relu(x: ArrayLike) -> ArrayLike:
         return np.maximum(0, x)
 
+    @staticmethod
+    def identity(x: ArrayLike) -> ArrayLike:
+        return x
+
 
 if __name__ == "__main__":
-    nn1 = NNIndividual((2, 3, 3), (lambda x: np.maximum(0, x), lambda x: x))
-    nn2 = NNIndividual((2, 3, 3), (lambda x: np.maximum(0, x), lambda x: x))
+    nn1 = NNIndividual((2, 3, 3), (Activations.relu, Activations.identity))
+    nn2 = NNIndividual((2, 3, 3), (Activations.relu, Activations.identity))
 
     c1, c2 = nn1.point_crossover(nn2)
