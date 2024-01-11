@@ -20,8 +20,8 @@ class HaliteEvaluator:
 
     SHIP_ACTIONS = list(ShipAction)
     SHIP_ACTIONS.append(None)
-    SHIPYARD_ACTIONS = list(ShipyardAction)
-    SHIPYARD_ACTIONS.append(None)
+    YARD_ACTIONS = list(ShipyardAction)
+    YARD_ACTIONS.append(None)
 
     def __init__(
         self,
@@ -142,7 +142,7 @@ class HaliteEvaluator:
 
             for shipyard in board.current_player.shipyards:
                 features = HaliteEvaluator.extract_features(board, shipyard)
-                shipyard.next_action = HaliteEvaluator.SHIPYARD_ACTIONS[
+                shipyard.next_action = HaliteEvaluator.YARD_ACTIONS[
                     shipyard_ind.predict(features)
                 ]
 
