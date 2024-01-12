@@ -1,7 +1,19 @@
 import pickle
 
 import matplotlib.pyplot as plt
-from deap.tools import Logbook
+import numpy as np
+from deap.tools import Logbook, Statistics
+
+
+def get_stats() -> Statistics:
+    """Initialize Statistics object"""
+    stats = Statistics(key=lambda ind: ind.fitness)
+    stats.register("avg", np.mean)
+    stats.register("std", np.std)
+    stats.register("median", np.median)
+    stats.register("min", min)
+    stats.register("max", max)
+    return stats
 
 
 def plot_logbook(logbook: Logbook, title: str = None, filename: str = None):
