@@ -166,6 +166,7 @@ def parse_es_config(
         mu=es_config["mu"],
         lmbd=es_config["lmbd"],
         elitism=es_config["elitism"],
+        generations_per_tick=es_config["generations_per_tick"],
     )
 
     return es
