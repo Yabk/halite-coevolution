@@ -84,7 +84,9 @@ def parse_gp_config(gp_config: dict, for_ship: bool) -> dict:
     else:
         output_num = len(HaliteEvaluator.YARD_ACTIONS)
         pset = GPIndividual.generate_pset(HaliteEvaluator.yard_in_types())
-    parsed["Individual"] = lambda: GPIndividual(pset, output_num)
+    parsed["Individual"] = lambda: GPIndividual(
+        pset, output_num, gp_config["min_depth"], gp_config["max_depth"]
+    )
 
     parsed["mutate"] = lambda individual: individual.mutate()
 
