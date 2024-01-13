@@ -46,6 +46,8 @@ if __name__ == "__main__":
     plot_coevolution(
         ship_logbook,
         yard_logbook,
+        coevolution.ship_subevolution.generations_per_tick,
+        coevolution.yard_subevolution.generations_per_tick,
         title="First run",
         filename=os.path.join(dir_path, "coevolution.png"),
     )

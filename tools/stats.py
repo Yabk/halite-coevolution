@@ -46,23 +46,28 @@ def plot_logbook(logbook: Logbook, title: str = None, filename: str = None):
 def plot_coevolution(
     ship_logbook: Logbook,
     yard_logbook: Logbook,
+    ship_generations_per_tick: int,
+    yard_generations_per_tick: int,
     title: str = None,
     filename: str = None,
 ):
     """Plot average fitness over generations for both subevolutions
     :param ship_logbook: Logbook containing the data for the ship subevolution
     :param yard_logbook: Logbook containing the data for the yard subevolution
+    :param ship_generations_per_tick: Number of generations per coevolution tick for the ship subevolution
+    :param yard_generations_per_tick: Number of generations per coevolution tick for the yard subevolution
     :param title: Title of the plot
     :param filename: Filename to save the plot to (if None, the plot is shown)"""
-    gen = ship_logbook.select("gen")
+    ship_gen = [g / ship_generations_per_tick for g in ship_logbook.select("gen")]
+    yard_gen = [g / yard_generations_per_tick for g in yard_logbook.select("gen")]
     ship_fit_avg = ship_logbook.select("avg")
     yard_fit_avg = yard_logbook.select("avg")
 
     plt.figure(figsize=(12, 8))
     plt.title(title)
-    plt.plot(gen, ship_fit_avg, label="Ship Average Fitness")
-    plt.plot(gen, yard_fit_avg, label="Yard Average Fitness")
-    plt.xlabel("Generation")
+    plt.plot(ship_gen, ship_fit_avg, label="Ship Average Fitness")
+    plt.plot(yard_gen, yard_fit_avg, label="Yard Average Fitness")
+    plt.xlabel("Coevolution generation")
     plt.ylabel("Fitness")
     plt.legend(loc="lower right")
 
