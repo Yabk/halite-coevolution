@@ -34,6 +34,11 @@ if __name__ == "__main__":
         pickle.dump(coevolution.ship_subevolution.hof, f)
     with open(os.path.join(dir_path, "yard-hof.pkl"), "wb") as f:
         pickle.dump(coevolution.yard_subevolution.hof, f)
+    # as well as logbooks
+    with open(os.path.join(dir_path, "ship-logbook.pkl"), "wb") as f:
+        pickle.dump(coevolution.ship_subevolution.logbook, f)
+    with open(os.path.join(dir_path, "yard-logbook.pkl"), "wb") as f:
+        pickle.dump(coevolution.yard_subevolution.logbook, f)
 
     # save the plots
     ship_logbook = coevolution.ship_subevolution.logbook
