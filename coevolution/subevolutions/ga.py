@@ -30,10 +30,8 @@ class GAevolution(Subevolution):
         self.population_size = population_size
 
         # initialize the population
-        self.population = [
-            self.toolbox.Individual() for _ in range(self.population_size)
-        ]
-        for individual in self.population:
+        self.pop = [self.toolbox.Individual() for _ in range(self.population_size)]
+        for individual in self.pop:
             individual.fitness = evaluate(individual)
         self.logbook.record(gen=self.generation, **self.stats.compile(self.population))
 
@@ -45,13 +43,18 @@ class GAevolution(Subevolution):
         """Return the current best individual in the generation"""
         return self.current_best
 
+    @property
+    def population(self) -> list[Individual]:
+        """Return the current population"""
+        return self.pop
+
     def tick(self, evaluate: Callable[[Individual], tuple[float, ...]]) -> None:
         """Run the algorithm for generations_per_tick generations"""
         for _ in range(self.generations_per_tick):
-            new_population = []
+            new_pop = []
             self.generation += 1
-            while len(new_population) < self.population_size:
-                parent1, parent2 = self.toolbox.select(self.population)
+            while len(new_pop) < self.population_size:
+                parent1, parent2 = self.toolbox.select(self.pop)
                 child1, child2 = self.toolbox.clone(parent1), self.toolbox.clone(
                     parent2
                 )
@@ -60,18 +63,18 @@ class GAevolution(Subevolution):
                 self.toolbox.mutate(child2)
                 child1.fitness = evaluate(child1)
                 child2.fitness = evaluate(child2)
-                new_population.append(child1)
-                new_population.append(child2)
+                new_pop.append(child1)
+                new_pop.append(child2)
 
-            self.hof.update(new_population)
-            self.population = new_population
+            self.hof.update(new_pop)
+            self.pop = new_pop
             self._set_current_best()
             record = self.stats.compile(self.population)
             self.logbook.record(gen=self.generation, **record)
 
     def _set_current_best(self) -> None:
         """Set the current best individual"""
-        self.current_best = self.population[0]
-        for individual in self.population:
+        self.current_best = self.pop[0]
+        for individual in self.pop:
             if individual.fitness > self.current_best.fitness:
                 self.current_best = individual

@@ -30,6 +30,11 @@ class Subevolution(ABC):
     def representative(self) -> Individual:
         """Return the representative -> current best individual, as used in potter2000"""
 
+    @property
+    @abstractmethod
+    def population(self) -> list[Individual]:
+        """Return the current population"""
+
     @abstractmethod
     def tick(self, evaluate: Callable[[Individual], tuple[float, ...]]) -> None:
         """Evaluate the individuals and generate a new population"""

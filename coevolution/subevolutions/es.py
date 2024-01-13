@@ -46,6 +46,11 @@ class ESevolution(Subevolution):
         """Return the current best individual in the generation"""
         return self.parents[0]
 
+    @property
+    def population(self) -> list[Individual]:
+        """Return the current population"""
+        return self.parents
+
     def tick(self, evaluate: Callable[[Individual], tuple[float, ...]]) -> None:
         """Run the algorithm for generations_per_tick generations"""
         for _ in range(self.generations_per_tick):
