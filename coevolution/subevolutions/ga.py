@@ -17,8 +17,16 @@ class GAevolution(Subevolution):
         hof_maxsize: int = 10,
         generations_per_tick: int = 1,
         population_size: int = 10,
+        save_best: int = 0,
     ):
         """Initialize the sub-evolution
+        :param toolbox: toolbox containing functions for the GA
+        :param statistics: object used for logging statistics for each generation
+        :param evaluate: evaluation function
+        :param hof_maxsize: maximum size of the hall of fame
+        :param generations_per_tick: number of generations to run in each tick of the main coevolution
+        :param population_size: number of individuals in the population
+        :param: save_best: number of best individuals to automatically promote to the next generation
 
         toolbox should contain the following functions:
         - Individual() -> Individual
@@ -28,6 +36,7 @@ class GAevolution(Subevolution):
         """
         super().__init__(toolbox, stats, hof_maxsize, generations_per_tick)
         self.population_size = population_size
+        self.save_best = save_best
 
         # initialize the population
         self.pop = [self.toolbox.Individual() for _ in range(self.population_size)]
@@ -51,7 +60,11 @@ class GAevolution(Subevolution):
     def tick(self, evaluate: Callable[[Individual], tuple[float, ...]]) -> None:
         """Run the algorithm for generations_per_tick generations"""
         for _ in range(self.generations_per_tick):
-            new_pop = []
+            if self.save_best > 0:
+                self.pop.sort(key=lambda i: i.fitness, reverse=True)
+                new_pop = [self.pop[i] for i in range(self.save_best)]
+            else:
+                new_pop = []
             self.generation += 1
             while len(new_pop) < self.population_size:
                 parent1, parent2 = self.toolbox.select(self.pop)

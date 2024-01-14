@@ -8,6 +8,7 @@ model = "NN" # model used for subevolution (NN/CGP/GP)
 generations_per_tick = 1 # number of subevolution generations per generation of the main evolution
 population_size = 100
 tournsize = 3 # tournament size for selection
+save_best = 1 # number of best individuals to automatically promote to the next generation
 
 [ship.nn] # neural network model configuration for ship subevolution
 layer_sizes = [12, 12]

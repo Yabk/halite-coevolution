@@ -141,6 +141,7 @@ def parse_ga_config(
         evaluate,
         population_size=ga_config["population_size"],
         generations_per_tick=ga_config["generations_per_tick"],
+        save_best=ga_config["save_best"],
     )
 
     return ga
