@@ -103,7 +103,7 @@ def parse_gp_config(gp_config: dict, for_ship: bool) -> dict:
 def parse_model_config(config: dict, for_ship: bool) -> dict:
     """Parse model configuration.
     :param config: dictionary containing configuration for subevolution
-    :for_ship: True if config is for ship, False if it is for yard
+    :param for_ship: True if config is for ship, False if it is for yard
     :return: dictionary containing model generator and mutation/crossover functions (if applicable)
     """
     if config["model"] == "NN":
