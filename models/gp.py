@@ -124,6 +124,10 @@ class GPIndividual(Individual):
         return a / b
 
     @staticmethod
+    def _ephermal() -> float:
+        return random.uniform(-1, 1)
+
+    @staticmethod
     def generate_pset(in_types: list[type]) -> PrimitiveSetTyped:
         pset = PrimitiveSetTyped("main", in_types, float)
         pset.addPrimitive(operator.xor, [bool, bool], bool)
@@ -140,7 +144,7 @@ class GPIndividual(Individual):
         pset.addTerminal(0.0, float)
         pset.addTerminal(1, bool)
         pset.addTerminal(0, bool)
-        pset.addEphemeralConstant("eph0-1", lambda: random.uniform(-1, 1), float)
+        pset.addEphemeralConstant("eph0-1", GPIndividual._ephermal, float)
 
         return pset
 
