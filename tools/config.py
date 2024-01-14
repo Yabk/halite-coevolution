@@ -91,9 +91,9 @@ def parse_gp_config(gp_config: dict, for_ship: bool) -> dict:
     parsed["mutate"] = lambda individual: individual.mutate(**gp_config["mutation"])
 
     if gp_config["mate"] == "micro":
-        parsed["mate"] = lambda i1, i2: i1.micro_cx(i2)
+        parsed["mate"] = lambda i1, i2: GPIndividual.micro_cx(i1, i2)
     elif gp_config["mate"] == "macro":
-        parsed["mate"] = lambda i1, i2: i1.macro_cx(i2)
+        parsed["mate"] = lambda i1, i2: GPIndividual.macro_cx(i1, i2)
     else:
         raise Exception(f"Unknown crossover type: {gp_config['mate']}")
 
