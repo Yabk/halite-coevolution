@@ -10,9 +10,11 @@ from deap.gp import (
     PrimitiveTree,
     compile,
     cxOnePoint,
+    genGrow,
     genHalfAndHalf,
     graph,
     mutNodeReplacement,
+    mutUniform,
 )
 
 from .individual import Individual
@@ -40,15 +42,27 @@ class GPIndividual(Individual):
         """Evaluate given inputs and return the outputs for each tree"""
         return [compile(tree, self.pset)(*inputs) for tree in self.trees]
 
-    def mutate(self, probability: float = None) -> None:
-        """Mutate the individual.
+    def mutate(self, max_depth: int = 3, probability: float = None) -> None:
+        """Mutate the individual using mutUniform() and genGrow(). If the height after mutation
+        is greater than max_depth, the mutation is discarded and simple node replacement is used.
+        :param max_depth: maximum depth of the newly generated subtree
         :param probability: probability of mutating each tree. If None, the probability is 1 / number of trees.
         """
         if probability is None:
             probability = 1 / len(self.trees)
-        for tree in self.trees:
+        for i in range(len(self.trees)):
             if random.random() < probability:
-                mutNodeReplacement(tree, self.pset)
+                expr = lambda pset, type_: genGrow(
+                    pset, min_=0, max_=max_depth, type_=type_
+                )
+                tree_copy = PrimitiveTree(self.trees[i].copy())
+                mutUniform(tree_copy, expr, self.pset)
+                # check if height of the tree is less than max_depth
+                if tree_copy.height <= max_depth:
+                    self.trees[i] = tree_copy
+                # if it is, do a simple mutNodeReplacement instead
+                else:
+                    mutNodeReplacement(self.trees[i], self.pset)
 
     def __getitem__(self, key: int) -> PrimitiveTree:
         return self.trees[key]
@@ -129,3 +143,14 @@ class GPIndividual(Individual):
         pset.addEphemeralConstant("eph0-1", lambda: random.uniform(-1, 1), float)
 
         return pset
+
+
+if __name__ == "__main__":
+    pset = GPIndividual.generate_pset([float, float, float])
+    ind = GPIndividual(pset, 2)
+
+    ind.visualize()
+
+    ind.mutate(probability=1)
+
+    ind.visualize()

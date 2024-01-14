@@ -88,7 +88,7 @@ def parse_gp_config(gp_config: dict, for_ship: bool) -> dict:
         pset, output_num, gp_config["min_depth"], gp_config["max_depth"]
     )
 
-    parsed["mutate"] = lambda individual: individual.mutate()
+    parsed["mutate"] = lambda individual: individual.mutate(**gp_config["mutation"])
 
     if gp_config["mate"] == "micro":
         parsed["mate"] = lambda i1, i2: i1.micro_cx(i2)
