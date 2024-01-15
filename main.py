@@ -62,17 +62,13 @@ if __name__ == "__main__":
         filename=os.path.join(dir_path, "yard.png"),
     )
 
-    # create 2 new empty files with filenames of highest achieved fitness for both yard and ship
-    # this is used to easily find the best fitness of the run when you have a lot of runs in a lot of directories
-    Path(
-        os.path.join(
-            dir_path, "ship-" + str(coevolution.ship_subevolution.hof[0].fitness[0])
+    # write out the best ship and yard fitness into 'best_fit.txt' file
+    with open(os.path.join(dir_path, "best_fit.txt"), "w") as f:
+        f.write(
+            f"Best ship fitness: {coevolution.ship_subevolution.hof[0].fitness[0]}\n"
         )
-    ).touch()
-    Path(
-        os.path.join(
-            dir_path, "yard-" + str(coevolution.yard_subevolution.hof[0].fitness[0])
+        f.write(
+            f"Best yard fitness: {coevolution.yard_subevolution.hof[0].fitness[0]}\n"
         )
-    ).touch()
 
     print("Done!")
