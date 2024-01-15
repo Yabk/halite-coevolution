@@ -98,12 +98,17 @@ class GPIndividual(Individual):
             plt.show()
 
     @staticmethod
-    def macro_cx(ind1: GPIndividual, ind2: GPIndividual) -> None:
+    def macro_cx(
+        ind1: GPIndividual, ind2: GPIndividual, probability: float = None
+    ) -> None:
         """Perform macro crossover - exchange whole trees between individuals.
-        Each tree has a 50% chance of being exchanged.
+        :param probability: Probability of exchanging each tree. If None, probability is 1/len(trees).
         """
+        if probability is None:
+            probability = 1 / len(ind1.trees)
+
         for i in range(len(ind1.trees)):
-            if random.random() < 0.5:
+            if random.random() < probability:
                 ind1.trees[i], ind2.trees[i] = ind2.trees[i], ind1.trees[i]
 
     @staticmethod
