@@ -32,7 +32,11 @@ def parse_nn_config(nn_config: dict, for_ship: bool) -> dict:
             + [len(HaliteEvaluator.SHIP_ACTIONS)]
         )
     else:
-        layer_sizes = [len(HaliteEvaluator.yard_in_types())]
+        layer_sizes = (
+            [len(HaliteEvaluator.yard_in_types())]
+            + nn_config["layer_sizes"]
+            + [len(HaliteEvaluator.YARD_ACTIONS)]
+        )
     parsed["Individual"] = lambda: NNIndividual(layer_sizes, activations)
 
     parsed["mutate"] = lambda individual: individual.mutate(**nn_config["mutation"])
