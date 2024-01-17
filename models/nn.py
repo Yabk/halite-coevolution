@@ -23,6 +23,16 @@ class NNIndividual(Individual):
         :param activations: list of activation functions for each layer
         """
         super().__init__()
+
+        if len(layer_sizes) != len(activations) + 1:
+            raise ValueError(
+                f"Number of layers ({len(layer_sizes)}) must be one more than number of activations ({len(activations)})"
+            )
+        elif len(layer_sizes) < 2:
+            raise ValueError(
+                f"Number of layers must be at least 2, got {len(layer_sizes)}"
+            )
+
         self.layers = [
             NNLayer(layer_sizes[i], layer_sizes[i + 1], activations[i])
             for i in range(len(layer_sizes) - 1)
