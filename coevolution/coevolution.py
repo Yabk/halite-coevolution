@@ -17,7 +17,12 @@ class Subevolution(ABC):
         hof_maxsize: int = 10,
         generations_per_tick: int = 1,
     ):
-        """Initialize the sub-evolution"""
+        """Initialize the sub-evolution
+        :param toolbox: toolbox containing functions for the Subevolution
+        :param statistics: object used for logging statistics for each generation
+        :param hof_maxsize: maximum size of the hall of fame
+        :param generations_per_tick: number of generations to run in each tick of the main coevolution
+        """
         self.toolbox = toolbox
         self.stats = stats
         self.logbook = tools.Logbook()
