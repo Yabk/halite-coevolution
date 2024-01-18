@@ -1,3 +1,4 @@
+import pickle
 from typing import Callable
 
 from deap import base, tools
@@ -19,8 +20,18 @@ class ESevolution(Subevolution):
         mu: int = 1,
         lmbd: int = 4,
         elitism: bool = True,
+        parents_file: str | None = None,
     ):
         """Initialize the sub-evolution.
+        :param toolbox: toolbox containing functions for the ES
+        :param statistics: object used for logging statistics for each generation
+        :param evaluate: evaluation function
+        :param hof_maxsize: maximum size of the hall of fame
+        :param generations_per_tick: number of generations to run in each tick of the main coevolution
+        :param mu: number of parents to select from the population
+        :param lmbd: number of children to generate
+        :param elitism: if True, the best individual from the previous generation is automatically promoted to the next generation
+        :param parents_file: file containing the initial parents
 
         toolbox should contain the following functions:
         - Individual() -> Individual
@@ -33,13 +44,21 @@ class ESevolution(Subevolution):
         self.generations_per_tick = generations_per_tick
 
         # initialize the population
-        population = [self.toolbox.Individual() for _ in range(self.lmbd)]
-        for individual in population:
-            individual.fitness = evaluate(individual)
-        self.logbook.record(gen=self.generation, **self.stats.compile(population))
-        self.hof.update(population)
-        population.sort(key=lambda i: i.fitness, reverse=True)
-        self.parents = population[: self.mu]
+        if parents_file is not None:
+            with open(parents_file, "rb") as f:
+                self.parents = pickle.load(f)
+            for individual in self.parents:
+                individual.fitness = evaluate(individual)
+            self.logbook.record(gen=self.generation, **self.stats.compile(self.parents))
+            self.hof.update(self.parents)
+        else:
+            population = [self.toolbox.Individual() for _ in range(self.lmbd)]
+            for individual in population:
+                individual.fitness = evaluate(individual)
+            self.logbook.record(gen=self.generation, **self.stats.compile(population))
+            self.hof.update(population)
+            population.sort(key=lambda i: i.fitness, reverse=True)
+            self.parents = population[: self.mu]
 
     @property
     def representative(self) -> Individual:

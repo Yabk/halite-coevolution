@@ -1,3 +1,4 @@
+import pickle
 from typing import Callable
 
 from deap import base, tools
@@ -18,6 +19,7 @@ class GAevolution(Subevolution):
         generations_per_tick: int = 1,
         population_size: int = 10,
         save_best: int = 0,
+        population_file: str | None = None,
     ):
         """Initialize the sub-evolution
         :param toolbox: toolbox containing functions for the GA
@@ -27,6 +29,7 @@ class GAevolution(Subevolution):
         :param generations_per_tick: number of generations to run in each tick of the main coevolution
         :param population_size: number of individuals in the population
         :param: save_best: number of best individuals to automatically promote to the next generation
+        :param population_file: file containing the initial population
 
         toolbox should contain the following functions:
         - Individual() -> Individual
@@ -39,9 +42,15 @@ class GAevolution(Subevolution):
         self.save_best = save_best
 
         # initialize the population
-        self.pop = [self.toolbox.Individual() for _ in range(self.population_size)]
+        if population_file is not None:
+            with open(population_file, "rb") as f:
+                self.pop = pickle.load(f)
+        else:
+            self.pop = [self.toolbox.Individual() for _ in range(self.population_size)]
+
         for individual in self.pop:
             individual.fitness = evaluate(individual)
+
         self.logbook.record(gen=self.generation, **self.stats.compile(self.population))
 
         self.hof.update(self.pop)

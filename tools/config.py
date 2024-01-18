@@ -147,6 +147,7 @@ def parse_ga_config(
         population_size=ga_config["population_size"],
         generations_per_tick=ga_config["generations_per_tick"],
         save_best=ga_config["save_best"],
+        population_file=ga_config.get("population_file", None),
     )
 
     return ga
@@ -175,6 +176,7 @@ def parse_es_config(
         lmbd=es_config["lmbd"],
         elitism=es_config["elitism"],
         generations_per_tick=es_config["generations_per_tick"],
+        parents_file=es_config.get("parents_file", None),
     )
 
     return es

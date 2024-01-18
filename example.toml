@@ -9,6 +9,7 @@ generations_per_tick = 1 # number of subevolution generations per generation of 
 population_size = 100
 tournsize = 3 # tournament size for selection
 save_best = 1 # number of best individuals to automatically promote to the next generation
+population_file = "ship-population.pkl" # pickled initial population (optional)
 
 [ship.nn] # neural network model configuration for ship subevolution
 layer_sizes = [12, 12]
@@ -28,6 +29,7 @@ generations_per_tick = 10
 mu = 1 # number of parents
 lmbd = 4 # number of offspring
 elitism = true
+parents_file = "yard-population.pkl" # pickled initial parents population (optional)
 
 [yard.cgp] # cgp model configuration for yard subevolution
 grid_width = 5
