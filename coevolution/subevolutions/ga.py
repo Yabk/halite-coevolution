@@ -44,7 +44,7 @@ class GAevolution(Subevolution):
             individual.fitness = evaluate(individual)
         self.logbook.record(gen=self.generation, **self.stats.compile(self.population))
 
-        self.hof.update(self.population)
+        self.hof.update(self.pop)
         self.current_best = self.hof[0]
 
     @property
