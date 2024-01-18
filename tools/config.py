@@ -8,6 +8,8 @@ from coevolution.coevolution import Coevolution, Subevolution
 from coevolution.subevolutions.es import ESevolution
 from coevolution.subevolutions.ga import GAevolution
 from evaluators.halite_evaluator import HaliteEvaluator
+from evaluators.halite_strategies.mnmnao import agent as mnmnao
+from evaluators.halite_strategies.naive import agent as naive
 from models.cgp import CGPIndividual
 from models.gp import GPIndividual
 from models.individual import Individual
@@ -199,8 +201,17 @@ def parse_config(config_file: str) -> Coevolution:
     with open(config_file, "rb") as f:
         config = tomllib.load(f)
 
+    if config["enemy_agent"] == "random":
+        enemy_agent = "random"
+    elif config["enemy_agent"] == "naive":
+        enemy_agent = naive
+    elif config["enemy_agent"] == "mnmnao":
+        enemy_agent = mnmnao
+    else:
+        raise Exception(f"Unknown enemy agent: {config['enemy_agent']}")
+
     evaluator = HaliteEvaluator(
-        enemy_agent=config["enemy_agent"], repeat_evaluation=config["repeat_evaluation"]
+        enemy_agent=enemy_agent, repeat_evaluation=config["repeat_evaluation"]
     )
     yard_model = parse_model_config(config["yard"], False)
     ship_subevolution = parse_subevolution_config(

@@ -1,5 +1,5 @@
 repeat_evaluation = 10  # number of games played in each evaluation
-enemy_agent = "random" # enemy agent used in evaluation (currently only random is supported)
+enemy_agent = "random" # enemy agent used in evaluation (random/naive/mnmnao)
 generations = 100
 
 [ship] # ship subevolution configuration
