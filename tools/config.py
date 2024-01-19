@@ -210,8 +210,15 @@ def parse_config(config_file: str) -> Coevolution:
     else:
         raise Exception(f"Unknown enemy agent: {config['enemy_agent']}")
 
+    if "debug" in config and config["debug"]:
+        debug = True
+    else:
+        debug = False
+
     evaluator = HaliteEvaluator(
-        enemy_agent=enemy_agent, repeat_evaluation=config["repeat_evaluation"]
+        enemy_agent=enemy_agent,
+        repeat_evaluation=config["repeat_evaluation"],
+        debug=debug,
     )
     yard_model = parse_model_config(config["yard"], False)
     ship_subevolution = parse_subevolution_config(
