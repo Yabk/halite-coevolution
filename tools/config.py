@@ -215,7 +215,9 @@ def parse_config(config_file: str) -> Coevolution:
     )
     yard_model = parse_model_config(config["yard"], False)
     ship_subevolution = parse_subevolution_config(
-        config["ship"], True, lambda i: evaluator.evaluate(i, yard_model["Individual"])
+        config["ship"],
+        True,
+        lambda i: evaluator.evaluate(i, yard_model["Individual"]()),
     )
     yard_subevolution = parse_subevolution_config(
         config["yard"],
