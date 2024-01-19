@@ -161,7 +161,7 @@ class HaliteEvaluator:
                 result = game_run[-1][0]
             else:
                 result = self.environment.run([agent])[-1][0]
-            if result["status"] == "error":
+            if result["status"] == "ERROR":
                 raise RuntimeError(f"Error in game run")
             try:
                 fitness += result["reward"]
