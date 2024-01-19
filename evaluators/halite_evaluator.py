@@ -131,6 +131,9 @@ class HaliteEvaluator:
                 ship.next_action = HaliteEvaluator.SHIP_ACTIONS[
                     output.index(max(output))
                 ]
+                # detect conversion and remove punishment
+                if ship.next_action == ShipAction.CONVERT:
+                    punishment[0] = 0
                 if (
                     ship.next_action == ShipAction.CONVERT
                     and ship.cell.shipyard is not None
@@ -155,6 +158,9 @@ class HaliteEvaluator:
 
         fitness = 0
         for seed in self.seeds:
+            # reset punishment for not converting for each seed
+            punishment[0] = 5000
+
             self.environment.configuration.randomSeed = seed
             if self.enemy_agent is not None:
                 game_run = self.environment.run([agent, self.enemy_agent])
@@ -167,10 +173,10 @@ class HaliteEvaluator:
                 fitness += result["reward"]
             except TypeError:
                 fitness = result["reward"]
-        try:
-            fitness -= punishment[0]
-        except TypeError:
-            fitness = -punishment[0]
+            try:
+                fitness -= punishment[0]
+            except TypeError:
+                fitness = -punishment[0]
         fitness /= len(self.seeds)
 
         return (fitness,)
