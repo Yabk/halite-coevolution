@@ -34,7 +34,11 @@ class HaliteEvaluator:
         self.enemy_agent = enemy_agent
         self.environment = make(
             "halite",
-            configuration={"size": board_size, "startingHalite": 1000},
+            configuration={
+                "size": board_size,
+                "startingHalite": 1000,
+                "runTimeout": 19200,
+            },
             debug=debug,
         )
         if (
