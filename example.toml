@@ -2,6 +2,7 @@ repeat_evaluation = 10  # number of games played in each evaluation
 enemy_agent = "random" # enemy agent used in evaluation (random/naive/mnmnao)
 generations = 100
 debug = false # if true, evaluator will print exceptions from agents during evaluation
+board_size = 5 # board width and height
 
 [ship] # ship subevolution configuration
 alg = "GA" # algorithm used for subevolution (GA/ES)

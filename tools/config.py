@@ -212,6 +212,7 @@ def parse_config(config_file: str) -> Coevolution:
 
     evaluator = HaliteEvaluator(
         enemy_agent=enemy_agent,
+        board_size=config.get("board_size", 5),
         repeat_evaluation=config["repeat_evaluation"],
         debug=config.get("debug", False),
     )
