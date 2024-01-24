@@ -74,7 +74,7 @@ class ESevolution(Subevolution):
         """Run the algorithm for generations_per_tick generations"""
         for _ in range(self.generations_per_tick):
             self.generation += 1
-            new_population = self.parents[:] if self.elitism else []
+            new_population = []
             while len(new_population) < self.lmbd:
                 for parent in self.parents:
                     child = self.toolbox.clone(parent)
@@ -83,6 +83,8 @@ class ESevolution(Subevolution):
                     new_population.append(child)
                     if len(new_population) >= self.lmbd:
                         break
+            if self.elitism:
+                new_population += self.parents
             new_population.sort(key=lambda i: i.fitness, reverse=True)
             self.parents = new_population[: self.mu]
             self.hof.update(self.parents)
