@@ -36,7 +36,6 @@ class HaliteEvaluator:
             "halite",
             configuration={
                 "size": board_size,
-                "startingHalite": 1000,
                 "runTimeout": 19200,
             },
             debug=debug,
