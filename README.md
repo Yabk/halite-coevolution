@@ -1,9 +1,14 @@
 # Halite Coevolution
 
-This project is an attempt to use evolutionary algorithms and coevolution to learn an effective strategy for playing
-Halite.
-Strategies for controlling ships and shipyards are evolved in separate populations (hence coevolution).
-It uses different evolutionary algorithms (GA/ES) and models (NN/CGP/GP) for the evolution of both the strategies.
+This project is an attempt to use evolutionary algorithms and coevolution to
+learn an effective strategy for playing Halite. The problem of playing the game
+is decomposed into two strategies; strategy for controlling the ships and
+strategy for controlling the shipyards. With that decomposition the problem is
+transformed into multi-agent optimization problem on which we can apply
+cooperative coevolution. Strategies for controlling ships and shipyards are
+evolved in separate populations (hence coevolution). It uses different
+evolutionary algorithms (GA/ES) and models (NN/CGP/GP) for the evolution of
+both the strategies.
 
 ## Installation
 
